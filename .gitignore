@@ -1,0 +1,7 @@
+*.class
+*.zip
+*.rar
+*.7z
+*.vscode
+/target/
+/build/
