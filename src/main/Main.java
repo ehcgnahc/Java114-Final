@@ -10,6 +10,8 @@ public class Main {
         Bank bankA = new Bank("BankA");
         Bank bankB = new Bank("BankB");
 
+        ATM atmA = new ATM(bankNetwork, bankA);
+
         bankNetwork.addBank(bankA);
         bankNetwork.addBank(bankB);
 

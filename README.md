@@ -11,7 +11,7 @@
 
 ### 1. 基本類別
 - 使用者(User)
-- 銀行(Bank）
+- 銀行(Bank)
 - 銀行卡(BankCard、DebitCard 或 ATMCard)
 
 ### 2. 基本功能

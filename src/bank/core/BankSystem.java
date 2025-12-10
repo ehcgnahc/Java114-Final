@@ -14,56 +14,34 @@ public class BankSystem {
     public boolean verifyPassword(Card card, String password){
         BaseBank bank = bankRegisterMap.get(card.getBankID());
 
-        if(bank == null){
-            return false;
-        }
-
+        if(bank == null) return false;
         return bank.verifyPassword(card, password);
     }
 
-    // 修改為ATM登入一次
-    public void deposit(Card card, String password, double amount){
-        if(card == null) return;
-
-        String targetBankID = card.getBankID();
+    public double getBalance(Card card){
+        if(card == null) return -1;
         
-        BaseBank targetBank = bankRegisterMap.get(targetBankID);
+        BaseBank bank = bankRegisterMap.get(card.getBankID());
+        if(bank == null) return -1;
 
-        if(targetBank == null){
-            System.out.println("ERROR: 找不到發卡銀行");
-        }else{
-            System.out.println("發卡銀行是: " + targetBankID);
-            targetBank.deposit(card, password, amount);
-        }
+        return bank.getBalance(card);
     }
 
-    public void withdraw(Card card, String password, double amount){
+    public void deposit(Card card, double amount){
         if(card == null) return;
 
-        String targetBankID = card.getBankID();
-        
-        BaseBank targetBank = bankRegisterMap.get(targetBankID);
+        BaseBank bank = bankRegisterMap.get(card.getBankID());
+        if(bank == null) return;
 
-        if(targetBank == null){
-            System.out.println("ERROR: 找不到發卡銀行");
-        }else{
-            System.out.println("發卡銀行是: " + targetBankID);
-            targetBank.withdraw(card, password, amount);
-        }
+        bank.deposit(card, amount);
     }
 
-    public void withdraw(Card card, String password, double amount){
+    public void withdraw(Card card, double amount){
         if(card == null) return;
-
-        String targetBankID = card.getBankID();
         
-        BaseBank targetBank = bankRegisterMap.get(targetBankID);
+        BaseBank bank = bankRegisterMap.get(card.getBankID());
+        if(bank == null) return;
 
-        if(targetBank == null){
-            System.out.println("ERROR: 找不到發卡銀行");
-        }else{
-            System.out.println("發卡銀行是: " + targetBankID);
-            targetBank.withdraw(card, password, amount);
-        }
+        bank.withdraw(card, amount);
     }
 }

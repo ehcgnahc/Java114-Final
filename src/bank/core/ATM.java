@@ -1,13 +1,15 @@
 package bank.core;
 
 public class ATM {
+    private Bank ownerBank;
     private BankSystem bankSystem;
 
     private Card currentCard = null;
     private boolean loggedIn = false;
 
-    public ATM(BankSystem bankSystem){
+    public ATM(BankSystem bankSystem, Bank ownerBank){
         this.bankSystem = bankSystem;
+        this.ownerBank = ownerBank;
     }
 
     public void insertCard(Card card){

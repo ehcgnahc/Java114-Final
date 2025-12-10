@@ -46,16 +46,24 @@ public abstract class BaseBank {
         return acc.checkPassword(password);
     }
 
-    public void deposit(Card card, String password, double amount){
+    public void deposit(Card card, double amount){
         Account acc = findAcc(card.getAccID());
         
         if(acc == null){
-            System.out.println("錯誤，請確認帳戶輸入正確");
-        }else if(!acc.checkPassword(password)){
-            System.out.println("密碼錯誤");
+            System.out.println("錯誤，請確認帳戶正確");
         }else{
             acc.deposit(amount);
             System.out.println("存款成功");
+        }
+    }
+
+    public double getBalance(Card card){
+        Account acc = findAcc(card.getAccID());
+
+        if(acc == null){
+            return -1;
+        }else{
+            return acc.getBalance();
         }
     }
 
@@ -63,7 +71,7 @@ public abstract class BaseBank {
         Account acc = findAcc(card.getAccID());
         
         if(acc == null){
-            System.out.println("錯誤，請確認帳戶輸入正確");
+            System.out.println("錯誤，請確認帳戶正確");
         }else{
             if(acc.getBalance() < amount){
                 System.out.println("餘額不足");
@@ -71,16 +79,6 @@ public abstract class BaseBank {
                 acc.withdraw(amount);
                 System.out.println("提款成功");
             }
-        }
-    }
-
-    public void getBalance(String accID){
-        Account acc = findAcc(accID);
-
-        if(acc == null){
-            System.out.println("錯誤，請確認帳戶輸入正確");
-        }else{
-            System.out.println("帳戶餘額: " + acc.getBalance());
         }
     }
 }

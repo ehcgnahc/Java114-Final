@@ -19,15 +19,15 @@ public class Account {
         return this.passwordHash.equals(hash(password));
     }
 
+    double getBalance(){
+        return this.balance;
+    }
+
     void deposit(double amount){
         this.balance += amount;
     }
 
     void withdraw(double amount){
         this.balance -= amount;
-    }
-
-    public double getBalance(){
-        return balance;
     }
 }
