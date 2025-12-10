@@ -1,7 +1,7 @@
 package bank.core;
 
 public class ATM {
-    private Bank ownerBank;
+    private String ownerBankID;
     private BankSystem bankSystem;
 
     private Card currentCard = null;
@@ -9,7 +9,11 @@ public class ATM {
 
     public ATM(BankSystem bankSystem, Bank ownerBank){
         this.bankSystem = bankSystem;
-        this.ownerBank = ownerBank;
+        this.ownerBankID = ownerBank.getBankID();
+    }
+
+    public boolean isCrossBank(Card card){
+        return !card.getBankID().equals(ownerBankID);
     }
 
     public void insertCard(Card card){

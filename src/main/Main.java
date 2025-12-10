@@ -24,9 +24,23 @@ public class Main {
         User1.setCard(Card1);
         User2.setCard(Card1);
         
+        // atmA.insertCard(Card1); //待修正
+        atmA.insertCard(User1.getCard());
 
-        bankNetwork.deposit(User1.getCard(), "password", 500);
-        bankNetwork.
+        atmA.checkBalance();
+        atmA.deposit(1234);
+        atmA.login("null");
+        atmA.deposit(1234);
+        atmA.login("password");
+        atmA.checkBalance();
+        atmA.deposit(1234);
+        atmA.withdraw(234);
+        atmA.checkBalance();
+        atmA.ejectCard();
+
+
+        // bankNetwork.deposit(User1.getCard(), "password", 500);
+        // bankNetwork.
 
         // myBank.deposit("TEST", 12333);
         // myBank.deposit("1233", 3333);

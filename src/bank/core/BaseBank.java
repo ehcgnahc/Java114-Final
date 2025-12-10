@@ -4,14 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class BaseBank {
-    private String bankName;
+    private String bankID;
 
     public BaseBank(String name){
-        this.bankName = name;
+        this.bankID = name;
     }
 
-    public String getBankName(){
-        return bankName;
+    public String getBankID(){
+        return bankID;
     }
 
     protected Map<String, Account> accMap = new HashMap<>();
@@ -21,7 +21,7 @@ public abstract class BaseBank {
         accMap.put(accID, newAcc);
 
         String newCardID = "CARD-" + accID;
-        Card newCard = new Card(newCardID, accID, bankName);
+        Card newCard = new Card(newCardID, accID, bankID);
         
         System.out.println("開戶成功，卡號是:" + newCardID);
 
@@ -57,13 +57,13 @@ public abstract class BaseBank {
         }
     }
 
-    public double getBalance(Card card){
+    public void getBalance(Card card){
         Account acc = findAcc(card.getAccID());
 
         if(acc == null){
-            return -1;
+            System.out.println("錯誤，請確認帳戶正確");
         }else{
-            return acc.getBalance();
+            System.out.println("帳戶餘額: " + acc.getBalance());
         }
     }
 

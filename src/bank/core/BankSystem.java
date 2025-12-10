@@ -7,8 +7,8 @@ public class BankSystem {
     protected Map<String, BaseBank> bankRegisterMap = new HashMap<>();
     
     public void addBank(BaseBank bank){
-        bankRegisterMap.put(bank.getBankName(), bank);
-        System.out.println("銀行系統：已連接 " + bank.getBankName());
+        bankRegisterMap.put(bank.getBankID(), bank);
+        System.out.println("銀行系統：已連接 " + bank.getBankID());
     }
     
     public boolean verifyPassword(Card card, String password){
@@ -18,13 +18,13 @@ public class BankSystem {
         return bank.verifyPassword(card, password);
     }
 
-    public double getBalance(Card card){
-        if(card == null) return -1;
+    public void getBalance(Card card){
+        if(card == null) return;
         
         BaseBank bank = bankRegisterMap.get(card.getBankID());
-        if(bank == null) return -1;
+        if(bank == null) return;
 
-        return bank.getBalance(card);
+        bank.getBalance(card);
     }
 
     public void deposit(Card card, double amount){
