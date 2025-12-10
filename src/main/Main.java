@@ -14,15 +14,17 @@ public class Main {
         bankNetwork.addBank(bankB);
 
         User User1 = new User("ehcgnahc", 5000);
+        User User2 = new User("ehcgnahc2", 5000);
 
-        Card Card1 = bankA.createAcc("test01");
-        Card Card2 = bankB.createAcc("test02");
+        Card Card1 = bankA.createAcc("test01", "password");
+        Card Card2 = bankB.createAcc("test02", "password");
 
         User1.setCard(Card1);
-        User1.setCard(Card2);
+        User2.setCard(Card1);
+        
 
-
-        bankNetwork.deposit(User1.getCard(), 500);
+        bankNetwork.deposit(User1.getCard(), "password", 500);
+        bankNetwork.
 
         // myBank.deposit("TEST", 12333);
         // myBank.deposit("1233", 3333);

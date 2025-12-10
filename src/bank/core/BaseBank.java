@@ -16,8 +16,8 @@ public abstract class BaseBank {
 
     protected Map<String, Account> accMap = new HashMap<>();
     
-    public Card createAcc(String accID){
-        Account newAcc = new Account(accID);
+    public Card createAcc(String accID, String password){
+        Account newAcc = new Account(accID, password);
         accMap.put(accID, newAcc);
 
         String newCardID = "CARD-" + accID;
@@ -36,19 +36,31 @@ public abstract class BaseBank {
         }
     }
 
-    public void deposit(String accID, double amount){
-        Account acc = findAcc(accID);
+    public boolean verifyPassword(Card card, String password){
+        Account acc = findAcc(card.getAccID());
+
+        if(acc == null){
+            return false;
+        }
+
+        return acc.checkPassword(password);
+    }
+
+    public void deposit(Card card, String password, double amount){
+        Account acc = findAcc(card.getAccID());
         
         if(acc == null){
             System.out.println("錯誤，請確認帳戶輸入正確");
+        }else if(!acc.checkPassword(password)){
+            System.out.println("密碼錯誤");
         }else{
             acc.deposit(amount);
             System.out.println("存款成功");
         }
     }
 
-    public void withdraw(String accID, double amount){
-        Account acc = findAcc(accID);
+    public void withdraw(Card card, double amount){
+        Account acc = findAcc(card.getAccID());
         
         if(acc == null){
             System.out.println("錯誤，請確認帳戶輸入正確");

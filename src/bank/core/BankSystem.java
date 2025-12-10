@@ -11,20 +11,59 @@ public class BankSystem {
         System.out.println("銀行系統：已連接 " + bank.getBankName());
     }
     
-    // 讀取卡片資訊
-    public void deposit(Card card, double amount){
+    public boolean verifyPassword(Card card, String password){
+        BaseBank bank = bankRegisterMap.get(card.getBankID());
+
+        if(bank == null){
+            return false;
+        }
+
+        return bank.verifyPassword(card, password);
+    }
+
+    // 修改為ATM登入一次
+    public void deposit(Card card, String password, double amount){
         if(card == null) return;
-        
-        String cardID = card.getCardID();
-        String accID = card.getAccID();
+
         String targetBankID = card.getBankID();
+        
         BaseBank targetBank = bankRegisterMap.get(targetBankID);
 
         if(targetBank == null){
             System.out.println("ERROR: 找不到發卡銀行");
         }else{
             System.out.println("發卡銀行是: " + targetBankID);
-            targetBank.deposit(accID, amount);
+            targetBank.deposit(card, password, amount);
+        }
+    }
+
+    public void withdraw(Card card, String password, double amount){
+        if(card == null) return;
+
+        String targetBankID = card.getBankID();
+        
+        BaseBank targetBank = bankRegisterMap.get(targetBankID);
+
+        if(targetBank == null){
+            System.out.println("ERROR: 找不到發卡銀行");
+        }else{
+            System.out.println("發卡銀行是: " + targetBankID);
+            targetBank.withdraw(card, password, amount);
+        }
+    }
+
+    public void withdraw(Card card, String password, double amount){
+        if(card == null) return;
+
+        String targetBankID = card.getBankID();
+        
+        BaseBank targetBank = bankRegisterMap.get(targetBankID);
+
+        if(targetBank == null){
+            System.out.println("ERROR: 找不到發卡銀行");
+        }else{
+            System.out.println("發卡銀行是: " + targetBankID);
+            targetBank.withdraw(card, password, amount);
         }
     }
 }

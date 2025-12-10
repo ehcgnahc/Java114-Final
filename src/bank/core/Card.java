@@ -4,11 +4,18 @@ public class Card {
     private String cardID;
     private String accID;
     private String bankID;
+    private String name;
+    private boolean access;
 
     public Card(String cardID, String accID, String bankID){
         this.cardID = cardID;
         this.accID = accID;
         this.bankID = bankID;
+    }
+
+    void accessCard(String name){
+        this.name = name;
+        this.access = true;
     }
 
     public String getCardID(){
@@ -21,5 +28,13 @@ public class Card {
 
     public String getBankID(){
         return bankID;
+    }
+
+    public String getName(){
+        return name;
+    }
+
+    boolean getAccess(){
+        return access;
     }
 }
