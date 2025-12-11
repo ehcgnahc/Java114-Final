@@ -5,8 +5,8 @@ public class Account {
     private String accID;
     private String passwordHash;
 
-    public Account(String ID, String password){
-        this.accID = ID;
+    public Account(String accID, String password){
+        this.accID = accID;
         this.balance = 0.0;
         this.passwordHash = hash(password);
     }

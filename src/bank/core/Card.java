@@ -7,14 +7,15 @@ public class Card {
     private String name;
     private boolean access;
 
-    public Card(String cardID, String accID, String bankID){
+    public Card(String cardID, String accID, String name, String bankID){
         this.cardID = cardID;
         this.accID = accID;
+        this.name = name;
         this.bankID = bankID;
     }
 
-    void accessCard(String name){
-        this.name = name;
+    // 新增ATM開卡流程
+    void accessCard(){
         this.access = true;
     }
 

@@ -10,16 +10,17 @@ public class Main {
         Bank bankA = new Bank("BankA");
         Bank bankB = new Bank("BankB");
 
-        ATM atmA = new ATM(bankNetwork, bankA);
-
         bankNetwork.addBank(bankA);
         bankNetwork.addBank(bankB);
+        
+        ATM atmA = new ATM(bankNetwork, bankA);
 
         User User1 = new User("ehcgnahc", 5000);
         User User2 = new User("ehcgnahc2", 5000);
 
-        Card Card1 = bankA.createAcc("test01", "password");
-        Card Card2 = bankB.createAcc("test02", "password");
+        //帶修正 加入user
+        Card Card1 = bankA.createAcc(User1.getName(), "password");
+        Card Card2 = bankB.createAcc(User2.getName(), "password");
 
         User1.setCard(Card1);
         User2.setCard(Card1);
