@@ -1,6 +1,4 @@
-package bank.model;
-
-import bank.core.Card;
+package bank.core;
 
 public class User {
     private String name;
@@ -16,7 +14,7 @@ public class User {
         return this.name;
     }
 
-    public void setCard(Card card){
+    void setCard(Card card){
         this.cardID = card;
         System.out.println(this.name + " 收到了卡片，卡號是：" + card.getCardID());
     }

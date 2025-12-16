@@ -1,16 +1,22 @@
 package bank.core;
 
-public class Card {
+class Card {
     private String cardID;
     private String accID;
     private String bankID;
-    private String name;
+    // private String name;
     private boolean access;
 
-    public Card(String cardID, String accID, String name, String bankID){
+    // Card(String cardID, String accID, String name, String bankID){
+    //     this.cardID = cardID;
+    //     this.accID = accID;
+    //     this.name = name;
+    //     this.bankID = bankID;
+    // }
+
+    Card(String cardID, String accID, String bankID){
         this.cardID = cardID;
         this.accID = accID;
-        this.name = name;
         this.bankID = bankID;
     }
 
@@ -31,9 +37,9 @@ public class Card {
         return bankID;
     }
 
-    public String getName(){
-        return name;
-    }
+    // public String getName(){
+    //     return name;
+    // }
 
     boolean getAccess(){
         return access;

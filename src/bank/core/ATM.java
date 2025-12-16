@@ -12,6 +12,7 @@ public class ATM {
         this.ownerBankID = ownerBank.getBankID();
     }
 
+    // 待處理
     public boolean isCrossBank(Card card){
         return !card.getBankID().equals(ownerBankID);
     }
@@ -39,28 +40,32 @@ public class ATM {
 
         return ok;
     }
-
-    public void checkBalance(){
+    
+    private boolean checkLogin(){
+        if(currentCard == null){
+            System.out.println("請先插卡");
+            return false;
+        }
         if(!loggedIn){
             System.out.println("尚未登入，請先輸入密碼");
-            return;
+            return false;
         }
+
+        return true;
+    }
+
+    public void checkBalance(){
+        if(!checkLogin()) return;
         bankSystem.getBalance(currentCard);
     }
 
     public void deposit(double amount){
-        if(!loggedIn){
-            System.out.println("尚未登入，請先輸入密碼");
-            return;
-        }
+        if(!checkLogin()) return;
         bankSystem.deposit(currentCard, amount);
     }
 
     public void withdraw(double amount){
-        if(!loggedIn){
-            System.out.println("尚未登入，請先輸入密碼");
-            return;
-        }
+        if(!checkLogin()) return;
         bankSystem.withdraw(currentCard, amount);
     }
 

@@ -29,17 +29,19 @@ public abstract class BaseBank {
         return sb.toString();
     }
 
-    public Card createAcc(String name, String password){
+    public Card createAcc(User user, String password){
+        // String name = user.getName();
         String accID = generateAccID();
 
         Account newAcc = new Account(accID, password);
         accMap.put(accID, newAcc);
 
         String newCardID = "CARD-" + accID;
-        Card newCard = new Card(newCardID, accID, name, bankID);
+        Card newCard = new Card(newCardID, accID, bankID);
         
-        System.out.println("開戶成功，卡號是:" + newCardID);
+        user.setCard(newCard); //開戶的同時將卡交給使用者
 
+        System.out.println("開戶成功，卡號是:" + newCardID);
         return newCard;
     }
 

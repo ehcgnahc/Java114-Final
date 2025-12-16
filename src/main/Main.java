@@ -1,7 +1,6 @@
 package main;
 
 import bank.core.*;
-import bank.model.User;
 
 public class Main {
     public static void main(String[] args){
@@ -19,11 +18,11 @@ public class Main {
         User User2 = new User("ehcgnahc2", 5000);
 
         //帶修正 加入user
-        Card Card1 = bankA.createAcc(User1.getName(), "password");
-        Card Card2 = bankB.createAcc(User2.getName(), "password");
+        bankA.createAcc(User1, "password");
+        bankB.createAcc(User2, "password2");
 
-        User1.setCard(Card1);
-        User2.setCard(Card1);
+        // User1.setCard(User1.getCard());
+        // User2.setCard(Card1);
         
         // atmA.insertCard(Card1); //待修正
         atmA.insertCard(User1.getCard());
