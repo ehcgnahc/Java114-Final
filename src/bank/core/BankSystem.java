@@ -8,7 +8,7 @@ public class BankSystem {
     
     public void addBank(BaseBank bank){
         bankRegisterMap.put(bank.getBankID(), bank);
-        System.out.println("銀行系統：已連接 " + bank.getBankID());
+        System.out.println("銀行系統: 已連接 " + bank.getBankID());
     }
     
     public boolean verifyPassword(Card card, String password){
@@ -18,30 +18,36 @@ public class BankSystem {
         return bank.verifyPassword(card, password);
     }
 
-    public void getBalance(Card card){
-        if(card == null) return;
+    public TransactionResult getBalance(Card card){
+        if(card == null)
+            return new TransactionResult(false, "卡片不存在", -1.0);
         
         BaseBank bank = bankRegisterMap.get(card.getBankID());
-        if(bank == null) return;
+        if(bank == null)
+            return new TransactionResult(false, "銀行不存在", -1.0);
 
-        bank.getBalance(card);
+        return bank.getBalance(card);
     }
 
-    public void deposit(Card card, double amount){
-        if(card == null) return;
+    public TransactionResult deposit(Card card, double amount){
+        if(card == null)
+            return new TransactionResult(false, "卡片不存在", -1.0);
 
         BaseBank bank = bankRegisterMap.get(card.getBankID());
-        if(bank == null) return;
+        if(bank == null)
+            return new TransactionResult(false, "銀行不存在", -1.0);
 
-        bank.deposit(card, amount);
+        return bank.deposit(card, amount);
     }
 
-    public void withdraw(Card card, double amount){
-        if(card == null) return;
+    public TransactionResult withdraw(Card card, double amount){
+        if(card == null)
+            return new TransactionResult(false, "卡片不存在", -1.0);
         
         BaseBank bank = bankRegisterMap.get(card.getBankID());
-        if(bank == null) return;
+        if(bank == null)
+            return new TransactionResult(false, "銀行不存在", -1.0);
 
-        bank.withdraw(card, amount);
+        return bank.withdraw(card, amount);
     }
 }

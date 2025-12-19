@@ -27,16 +27,25 @@ public class Main {
         // atmA.insertCard(Card1); //待修正
         atmA.insertCard(User1.getCard());
 
-        atmA.checkBalance();
-        atmA.deposit(1234);
-        atmA.login("null");
-        atmA.deposit(1234);
+        // atmA.checkBalance();
+        // atmA.deposit(1234);
+        // atmA.login("null");
+        // atmA.deposit(1234);
         atmA.login("password");
         atmA.checkBalance();
+        atmA.withdraw(1234);
         atmA.deposit(1234);
+        atmA.checkBalance();
         atmA.withdraw(234);
         atmA.checkBalance();
-        atmA.ejectCard();
+
+        // bug
+        atmA.login("3333");
+        atmA.insertCard(User2.getCard());
+        atmA.login("password2");
+        atmA.checkBalance();
+        
+        // atmA.ejectCard();
 
 
         // bankNetwork.deposit(User1.getCard(), "password", 500);

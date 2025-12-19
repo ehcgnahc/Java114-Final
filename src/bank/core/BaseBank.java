@@ -41,7 +41,7 @@ public abstract class BaseBank {
         
         user.setCard(newCard); //開戶的同時將卡交給使用者
 
-        System.out.println("開戶成功，卡號是:" + newCardID);
+        System.out.println("開戶成功，卡號是: " + newCardID);
         return newCard;
     }
 
@@ -63,39 +63,36 @@ public abstract class BaseBank {
         return acc.checkPassword(password);
     }
 
-    public void deposit(Card card, double amount){
+    public TransactionResult getBalance(Card card){
         Account acc = findAcc(card.getAccID());
-        
-        if(acc == null){
-            System.out.println("錯誤，請確認帳戶正確");
-        }else{
-            acc.deposit(amount);
-            System.out.println("存款成功");
-        }
+
+        if(acc == null)
+            return new TransactionResult(false, "請確認帳戶正確", -1.0);
+            
+        return new TransactionResult(true, "目前餘額", acc.getBalance());
     }
 
-    public void getBalance(Card card){
-        Account acc = findAcc(card.getAccID());
-
-        if(acc == null){
-            System.out.println("錯誤，請確認帳戶正確");
-        }else{
-            System.out.println("帳戶餘額: " + acc.getBalance());
-        }
-    }
-
-    public void withdraw(Card card, double amount){
+    public TransactionResult deposit(Card card, double amount){
         Account acc = findAcc(card.getAccID());
         
-        if(acc == null){
-            System.out.println("錯誤，請確認帳戶正確");
-        }else{
-            if(acc.getBalance() < amount){
-                System.out.println("餘額不足");
-            }else{
-                acc.withdraw(amount);
-                System.out.println("提款成功");
-            }
-        }
+        if(acc == null)
+            return new TransactionResult(false, "請確認帳戶正確", -1.0);
+
+        acc.deposit(amount);
+        return new TransactionResult(true, "存款成功", acc.getBalance());
+        
+    }
+
+    public TransactionResult withdraw(Card card, double amount){
+        Account acc = findAcc(card.getAccID());
+        
+        if(acc == null)
+            return new TransactionResult(false, "請確認帳戶正確", -1.0);
+        
+        if(acc.getBalance() < amount)
+            return new TransactionResult(false, "餘額不足", acc.getBalance());
+        
+        acc.withdraw(amount);
+        return new TransactionResult(true, "提款成功", acc.getBalance());
     }
 }

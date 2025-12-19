@@ -20,7 +20,7 @@ public class ATM {
     public void insertCard(Card card){
         this.currentCard = card;
         this.loggedIn = false;
-        System.out.println("已插入卡片 :" + card.getCardID());
+        System.out.println("已插入卡片: " + card.getCardID());
     }
 
     public boolean login(String password){
@@ -56,17 +56,38 @@ public class ATM {
 
     public void checkBalance(){
         if(!checkLogin()) return;
-        bankSystem.getBalance(currentCard);
+        
+        TransactionResult result = bankSystem.getBalance(currentCard);
+
+        if(result.isSuccess()){
+            System.out.println(result.getMessage() + ": " + result.getBalance());
+        }else{
+            System.out.println("錯誤: " + result.getMessage());
+        }
     }
 
     public void deposit(double amount){
         if(!checkLogin()) return;
-        bankSystem.deposit(currentCard, amount);
+
+        TransactionResult result = bankSystem.deposit(currentCard, amount);
+
+        if(result.isSuccess()){
+            System.out.println(result.getMessage());
+        }else{
+            System.out.println("錯誤: " + result.getMessage());
+        }
     }
 
     public void withdraw(double amount){
         if(!checkLogin()) return;
-        bankSystem.withdraw(currentCard, amount);
+        
+        TransactionResult result = bankSystem.withdraw(currentCard, amount);
+
+        if(result.isSuccess()){
+            System.out.println(result.getMessage());
+        }else{
+            System.out.println("錯誤: " + result.getMessage());
+        }
     }
 
     public void ejectCard(){
