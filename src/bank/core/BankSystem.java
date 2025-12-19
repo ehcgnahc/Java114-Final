@@ -64,6 +64,10 @@ public class BankSystem {
 
         double totalAmount = amount - fee;
 
+        if(totalAmount < 0){
+            return new TransactionResult(false, "存款金額不足以支付手續費", -1.0);
+        }
+
         return bank.deposit(card, totalAmount);
     }
 

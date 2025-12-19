@@ -23,7 +23,14 @@ public class ATM {
             System.out.println("此ATM正在使用");
             return;
         }
+
+        if(card.isUsing()){
+            System.out.println("錯誤: 此卡片目前正在其他機台使用中");
+            return;
+        }
+
         this.currentCard = card;
+        card.setStatus(true);
         this.loggedIn = false;
         // this.isUsing = true;
         System.out.println("已插入卡片: " + card.getCardID());
@@ -117,6 +124,8 @@ public class ATM {
     }
 
     public void ejectCard(){
+        this.currentCard.setStatus(false);
+        
         this.currentCard = null;
         this.loggedIn = false;
         // this.isUsing = false;

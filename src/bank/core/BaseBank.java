@@ -14,19 +14,30 @@ public abstract class BaseBank {
     }
 
     public String getBankID(){
-        return bankID;
+        return this.bankID;
     }
 
     protected Map<String, Account> accMap = new HashMap<>();
     
     // 要加入hash 以及人數問題和隨機重複效率
     private String generateAccID(){
-        StringBuilder sb = new StringBuilder("25942759");
-        for(int i=0; i<8; i++){
-            sb.append(secureRandom.nextInt(10));
-        }
+        String prefix = "25942759";
+
+        long nano = System.nanoTime();
+
+        String timePart = String.format("%06d", nano % 1000000);
+
+        int randomPart = secureRandom.nextInt(100); // 00~99
+        String randomStr = String.format("%02d", randomPart);
+
+        return prefix + timePart + randomStr;
+
+        // StringBuilder sb = new StringBuilder("25942759");
+        // for(int i=0; i<8; i++){
+        //     sb.append(secureRandom.nextInt(10));
+        // }
         
-        return sb.toString();
+        // return sb.toString();
     }
 
     public Card createAcc(User user, String password){
