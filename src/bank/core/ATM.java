@@ -69,7 +69,7 @@ public class ATM {
     public void deposit(double amount){
         if(!checkLogin()) return;
 
-        TransactionResult result = bankSystem.deposit(currentCard, amount);
+        TransactionResult result = bankSystem.deposit(currentCard, amount, this.ownerBankID);
 
         if(result.isSuccess()){
             System.out.println(result.getMessage());
@@ -81,12 +81,29 @@ public class ATM {
     public void withdraw(double amount){
         if(!checkLogin()) return;
         
-        TransactionResult result = bankSystem.withdraw(currentCard, amount);
+        TransactionResult result = bankSystem.withdraw(currentCard, amount, this.ownerBankID);
 
         if(result.isSuccess()){
             System.out.println(result.getMessage());
         }else{
             System.out.println("錯誤: " + result.getMessage());
+        }
+    }
+
+    public void transfer(String targetBankID, String targetAccID, double amount){
+        if(!checkLogin()) return;
+
+        if(!currentCard.getBankID().equals(targetBankID)){
+            System.out.println("【提醒】您正在進行跨行轉帳，將收取額外手續費");
+        }
+
+        TransactionResult result = bankSystem.transfer(currentCard, targetBankID, targetAccID, amount);
+
+        if(result.isSuccess()){
+            System.out.println(result.getMessage());
+            System.out.println("帳戶餘額: " + result.getBalance());
+        }else{
+            System.out.println("交易失敗: " + result.getMessage());
         }
     }
 

@@ -40,6 +40,7 @@ public abstract class BaseBank {
         Card newCard = new Card(newCardID, accID, bankID);
         
         user.setCard(newCard); //開戶的同時將卡交給使用者
+        user.setAccID(accID);
 
         System.out.println("開戶成功，卡號是: " + newCardID);
         return newCard;
@@ -51,6 +52,10 @@ public abstract class BaseBank {
         }else{
             return null;
         }
+    }
+
+    public boolean isAccountExist(String accID) {
+        return accMap.containsKey(accID);
     }
 
     public boolean verifyPassword(Card card, String password){
@@ -81,6 +86,16 @@ public abstract class BaseBank {
         acc.deposit(amount);
         return new TransactionResult(true, "存款成功", acc.getBalance());
         
+    }
+
+    public TransactionResult depositByAccID(String accID, double amount) {
+        Account acc = findAcc(accID);
+        if (acc == null) {
+            return new TransactionResult(false, "轉入帳號不存在", -1.0);
+        }
+        acc.deposit(amount);
+        
+        return new TransactionResult(true, "轉入成功", acc.getBalance());
     }
 
     public TransactionResult withdraw(Card card, double amount){
