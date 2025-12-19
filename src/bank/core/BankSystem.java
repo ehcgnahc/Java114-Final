@@ -21,10 +21,10 @@ public class BankSystem {
         }
     }
 
-    private double getFee(String cardBankID, String atmBankID){
-        if(crossBankFeeMap.containsKey(cardBankID) && 
-            crossBankFeeMap.get(cardBankID).containsKey(atmBankID)){
-            return crossBankFeeMap.get(cardBankID).get(atmBankID);
+    private double getFee(String sourceBankID, String targetBankID){
+        if(crossBankFeeMap.containsKey(sourceBankID) && 
+            crossBankFeeMap.get(sourceBankID).containsKey(targetBankID)){
+            return crossBankFeeMap.get(sourceBankID).get(targetBankID);
         }
         return 15.0; 
     }
@@ -82,9 +82,9 @@ public class BankSystem {
             System.out.println("偵測到跨行提款(" + card.getBankID() + " -> " + ATMBankID + ")，手續費: " + fee);
         }
 
-        double totalAmount = amount - fee;
+        double totalAmount = amount + fee;
 
-        return bank.deposit(card, totalAmount);
+        return bank.withdraw(card, totalAmount);
     }
 
     public TransactionResult transfer(Card sourceCard, String targetBankID, String targetAccID, double amount){

@@ -3,7 +3,8 @@ package bank.core;
 public class ATM {
     private String ownerBankID;
     private BankSystem bankSystem;
-
+    
+    // private boolean isUsing = false;
     private Card currentCard = null;
     private boolean loggedIn = false;
 
@@ -18,15 +19,25 @@ public class ATM {
     }
 
     public void insertCard(Card card){
+        if(currentCard != null){
+            System.out.println("此ATM正在使用");
+            return;
+        }
         this.currentCard = card;
         this.loggedIn = false;
+        // this.isUsing = true;
         System.out.println("已插入卡片: " + card.getCardID());
     }
 
-    public boolean login(String password){
+    public void login(String password){
         if(currentCard == null){
             System.out.println("請先插卡");
-            return false;
+            return;
+        }
+
+        if(loggedIn){
+            System.out.println("此ATM已登入");
+            return;
         }
 
         boolean ok = bankSystem.verifyPassword(currentCard, password);
@@ -37,8 +48,6 @@ public class ATM {
         }else{
             System.out.println("密碼錯誤");
         }
-
-        return ok;
     }
     
     private boolean checkLogin(){
@@ -110,6 +119,7 @@ public class ATM {
     public void ejectCard(){
         this.currentCard = null;
         this.loggedIn = false;
+        // this.isUsing = false;
         System.out.println("卡片已退出");
     }
 }

@@ -46,12 +46,13 @@ public class Main {
         atmB.login("password2");
         atmB.checkBalance();
 
+        atmA.ejectCard();
+        // atmA.login("3333");
+        atmB.ejectCard();
+        atmA.checkBalance();
 
         // bug
-        // atmA.login("3333");
-        // atmA.insertCard(User2.getCard());
-        // atmA.login("password2");
-        // atmA.checkBalance();
+        atmA.insertCard(User2.getCard()); //不應該插入炸在使用的卡片
         
         // atmA.ejectCard();
 
