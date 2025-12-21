@@ -3,5 +3,6 @@
 *.rar
 *.7z
 *.vscode
-/target/
-/build/
+build/
+resources/
+target/

@@ -19,7 +19,6 @@ public abstract class BaseBank {
 
     protected Map<String, Account> accMap = new HashMap<>();
     
-    // 要加入hash 以及人數問題和隨機重複效率
     private String generateAccID(){
         String prefix = "25942759";
 
@@ -40,9 +39,27 @@ public abstract class BaseBank {
         // return sb.toString();
     }
 
+    private String generateEasyAccID(){
+        int randomPart = secureRandom.nextInt(100); // 00~99
+        String randomStr = String.format("%02d", randomPart);
+
+        return randomStr;
+
+        // StringBuilder sb = new StringBuilder("25942759");
+        // for(int i=0; i<8; i++){
+        //     sb.append(secureRandom.nextInt(10));
+        // }
+        
+        // return sb.toString();
+    }
+
     public Card createAcc(User user, String password){
         // String name = user.getName();
-        String accID = generateAccID();
+        String accID;
+
+        do {
+            accID = generateEasyAccID();
+        } while (accMap.containsKey(accID));
 
         Account newAcc = new Account(accID, password);
         accMap.put(accID, newAcc);
@@ -50,8 +67,10 @@ public abstract class BaseBank {
         String newCardID = "CARD-" + accID;
         Card newCard = new Card(newCardID, accID, bankID);
         
-        user.setCard(newCard); //開戶的同時將卡交給使用者
-        user.setAccID(accID);
+        PassBook newPassBook = new PassBook(accID, bankID);
+
+        user.addCard(newCard); //開戶的同時將卡交給使用者
+        user.addPassBook(newPassBook);
 
         System.out.println("開戶成功，卡號是: " + newCardID);
         return newCard;

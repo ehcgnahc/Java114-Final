@@ -23,36 +23,40 @@ public class Main {
 
         //帶修正 加入user
         bankA.createAcc(User1, "password");
-        bankB.createAcc(User2, "password2");
+        bankB.createAcc(User1, "password");
+        bankA.createAcc(User2, "password");
+        bankB.createAcc(User2, "password");
+
+        System.out.println("User1 目前持有的卡片數量: " + User1.getCard().size());
+
+        // Card cardA = User1.getCardByBank("BankA");
 
         // User1.setCard(User1.getCard());
         // User2.setCard(Card1);
-
-        // atmA.insertCard(Card1); //待修正
         
         // atmA.checkBalance();
         // atmA.deposit(1234);
         // atmA.login("null");
         // atmA.deposit(1234);
-        atmA.insertCard(User1.getCard());
+        atmA.insertCard(User1.getCardByBank("BankB"));
         atmA.login("password");
         atmA.checkBalance();
         atmA.deposit(1000);
         atmA.checkBalance();
-        atmA.transfer("BankB", User2.getAccID(), 100);
+        atmA.transfer("BankB", User1.getPassBookByBank("BankB").getAccID(), 100);
         atmA.checkBalance();
 
-        atmB.insertCard(User2.getCard());
-        atmB.login("password2");
+        atmB.insertCard(User1.getCardByBank("BankB"));
+        atmB.login("password");
         atmB.checkBalance();
 
         atmA.ejectCard();
         // atmA.login("3333");
-        atmB.ejectCard();
+        // atmB.ejectCard();
         atmA.checkBalance();
 
         // bug
-        atmA.insertCard(User2.getCard()); //不應該插入炸在使用的卡片
+        // atmA.insertCard(User2.getCard());
         
         // atmA.ejectCard();
 

@@ -1,6 +1,5 @@
 package bank.core;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -99,6 +98,10 @@ public class BankSystem {
 
         BaseBank sourceBank = bankRegisterMap.get(sourceCard.getBankID());
         BaseBank targetBank = bankRegisterMap.get(targetBankID);
+
+        if(sourceCard.getBankID().equals(targetBankID) && sourceCard.getAccID().equals(targetAccID)){
+            return new TransactionResult(false, "交易失敗: 不可轉帳至同一帳戶", -1.0);
+        }
 
         if(sourceBank == null)
             return new TransactionResult(false, "發卡銀行不存在", -1.0);

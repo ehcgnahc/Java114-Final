@@ -36,15 +36,15 @@ public class ATM {
         System.out.println("已插入卡片: " + card.getCardID());
     }
 
-    public void login(String password){
+    public boolean login(String password){
         if(currentCard == null){
             System.out.println("請先插卡");
-            return;
+            return false;
         }
 
         if(loggedIn){
             System.out.println("此ATM已登入");
-            return;
+            return true;
         }
 
         boolean ok = bankSystem.verifyPassword(currentCard, password);
@@ -52,8 +52,10 @@ public class ATM {
         if(ok){
             this.loggedIn = true;
             System.out.println("登入成功");
+            return true;
         }else{
             System.out.println("密碼錯誤");
+            return false;
         }
     }
     
@@ -70,62 +72,81 @@ public class ATM {
         return true;
     }
 
-    public void checkBalance(){
-        if(!checkLogin()) return;
+    public String checkBalance(){
+        if(!checkLogin()) return "請先登入";
         
         TransactionResult result = bankSystem.getBalance(currentCard);
 
+        String msg;
+
         if(result.isSuccess()){
-            System.out.println(result.getMessage() + ": " + result.getBalance());
+            msg = result.getMessage() + ": " + result.getBalance();
         }else{
-            System.out.println("錯誤: " + result.getMessage());
+            msg = "查詢失敗: " + result.getMessage();
         }
+        System.out.println(msg);
+        return msg;
     }
 
-    public void deposit(double amount){
-        if(!checkLogin()) return;
+    public String deposit(double amount){
+        if(!checkLogin()) return "請先登入";
 
         TransactionResult result = bankSystem.deposit(currentCard, amount, this.ownerBankID);
 
+        String msg;
         if(result.isSuccess()){
-            System.out.println(result.getMessage());
+            msg = result.getMessage();
         }else{
-            System.out.println("錯誤: " + result.getMessage());
+            msg = "錯誤: " + result.getMessage();
         }
+        System.out.println(msg);
+        return msg;
     }
 
-    public void withdraw(double amount){
-        if(!checkLogin()) return;
+    public String withdraw(double amount){
+        if(!checkLogin()) return "請先登入";
         
         TransactionResult result = bankSystem.withdraw(currentCard, amount, this.ownerBankID);
 
+        String msg;
         if(result.isSuccess()){
-            System.out.println(result.getMessage());
+            msg = result.getMessage();
         }else{
-            System.out.println("錯誤: " + result.getMessage());
+            msg = "錯誤: " + result.getMessage();
         }
+        System.out.println(msg);
+        return msg;
     }
 
-    public void transfer(String targetBankID, String targetAccID, double amount){
-        if(!checkLogin()) return;
+    public String transfer(String targetBankID, String targetAccID, double amount){
+        if(!checkLogin()) return "請先登入";
 
+        StringBuilder sb = new StringBuilder();
         if(!currentCard.getBankID().equals(targetBankID)){
-            System.out.println("【提醒】您正在進行跨行轉帳，將收取額外手續費");
+            sb.append("【跨行轉帳】\n");
         }
 
         TransactionResult result = bankSystem.transfer(currentCard, targetBankID, targetAccID, amount);
 
         if(result.isSuccess()){
-            System.out.println(result.getMessage());
-            System.out.println("帳戶餘額: " + result.getBalance());
+            sb.append("轉帳成功\n");
+            sb.append("金額: ").append(amount).append("\n");
+            sb.append("餘額: ").append(result.getBalance());
         }else{
-            System.out.println("交易失敗: " + result.getMessage());
+            sb.append("交易失敗:\n").append(result.getMessage());
         }
+        
+        String finalMsg = sb.toString();
+        System.out.println(finalMsg);
+        return finalMsg;
     }
 
     public void ejectCard(){
+        if (this.currentCard == null) {
+            return;
+        }
+
         this.currentCard.setStatus(false);
-        
         this.currentCard = null;
         this.loggedIn = false;
         // this.isUsing = false;
