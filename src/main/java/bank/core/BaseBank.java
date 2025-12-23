@@ -57,7 +57,7 @@ public abstract class BaseBank {
         // String name = user.getName();
         String accID;
 
-        do {
+        do{
             accID = generateEasyAccID();
         } while (accMap.containsKey(accID));
 
@@ -107,28 +107,28 @@ public abstract class BaseBank {
         return new TransactionResult(true, "目前餘額", acc.getBalance());
     }
 
-    public TransactionResult deposit(Card card, double amount){
+    public TransactionResult deposit(Card card, double amount, String msg){
         Account acc = findAcc(card.getAccID());
         
         if(acc == null)
             return new TransactionResult(false, "請確認帳戶正確", -1.0);
 
-        acc.deposit(amount);
+        acc.deposit(amount, msg);
         return new TransactionResult(true, "存款成功", acc.getBalance());
         
     }
 
-    public TransactionResult depositByAccID(String accID, double amount) {
+    public TransactionResult depositByAccID(String accID, double amount, String msg) {
         Account acc = findAcc(accID);
         if (acc == null) {
             return new TransactionResult(false, "轉入帳號不存在", -1.0);
         }
-        acc.deposit(amount);
+        acc.deposit(amount, msg);
         
         return new TransactionResult(true, "轉入成功", acc.getBalance());
     }
 
-    public TransactionResult withdraw(Card card, double amount){
+    public TransactionResult withdraw(Card card, double amount, String msg){
         Account acc = findAcc(card.getAccID());
         
         if(acc == null)
@@ -137,7 +137,16 @@ public abstract class BaseBank {
         if(acc.getBalance() < amount)
             return new TransactionResult(false, "餘額不足", acc.getBalance());
         
-        acc.withdraw(amount);
+        acc.withdraw(amount, msg);
         return new TransactionResult(true, "提款成功", acc.getBalance());
+    }
+
+    public TransactionResult updatePassBook(PassBook passBook){
+        Account acc = findAcc(passBook.getAccID());
+        if(acc == null)
+            return new TransactionResult(false, "請確認存簿正確", -1.0);
+
+        passBook.setHistory(acc.getTransactions());
+        return new TransactionResult(false, "更新存摺成功", 0.0);
     }
 }

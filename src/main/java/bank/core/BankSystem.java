@@ -54,11 +54,13 @@ public class BankSystem {
         if(bank == null)
             return new TransactionResult(false, "銀行不存在", -1.0);
         
+        String msg = ATMBankID;
         double fee = 0.0;
 
         if(!card.getBankID().equals(ATMBankID)){
             fee = getFee(card.getBankID(), ATMBankID);
             System.out.println("偵測到跨行存款(" + card.getBankID() + " -> " + ATMBankID + ")，手續費: " + fee);
+            msg = msg + " 手續費: " + fee;
         }
 
         double totalAmount = amount - fee;
@@ -67,7 +69,7 @@ public class BankSystem {
             return new TransactionResult(false, "存款金額不足以支付手續費", -1.0);
         }
 
-        return bank.deposit(card, totalAmount);
+        return bank.deposit(card, totalAmount, msg);
     }
 
     public TransactionResult withdraw(Card card, double amount, String ATMBankID){
@@ -78,16 +80,18 @@ public class BankSystem {
         if(bank == null)
             return new TransactionResult(false, "銀行不存在", -1.0);
 
+        String msg = ATMBankID;
         double fee = 0.0;
 
         if(!card.getBankID().equals(ATMBankID)){
             fee = getFee(card.getBankID(), ATMBankID);
             System.out.println("偵測到跨行提款(" + card.getBankID() + " -> " + ATMBankID + ")，手續費: " + fee);
+            msg = msg + " 手續費: " + fee;
         }
 
         double totalAmount = amount + fee;
 
-        return bank.withdraw(card, totalAmount);
+        return bank.withdraw(card, totalAmount, msg);
     }
 
     public TransactionResult transfer(Card sourceCard, String targetBankID, String targetAccID, double amount){
@@ -112,23 +116,27 @@ public class BankSystem {
             return new TransactionResult(false, "轉入帳號不存在，交易取消", -1.0);
         }
 
+        String sourceMsg = sourceCard.getBankID();
+        String targetMsg = targetBankID;
         double fee = 0;
+
         if(!sourceCard.getBankID().equals(targetBankID)){
             fee = getFee(sourceBank.getBankID(), targetBankID);
+            sourceMsg = sourceMsg + " 手續費: " + fee;
         }
 
         double totalDeduct = amount + fee;
 
-        TransactionResult withdrawResult = sourceBank.withdraw(sourceCard, totalDeduct);
+        TransactionResult withdrawResult = sourceBank.withdraw(sourceCard, totalDeduct, sourceMsg);
 
         if(!withdrawResult.isSuccess()){
             return new TransactionResult(false, "轉帳失敗: " + withdrawResult.getMessage(), -1.0);
         }
 
-        TransactionResult depositResult = targetBank.depositByAccID(targetAccID, amount);
+        TransactionResult depositResult = targetBank.depositByAccID(targetAccID, amount, targetMsg);
 
         if(!depositResult.isSuccess()){
-            sourceBank.deposit(sourceCard, totalDeduct);
+            sourceBank.deposit(sourceCard, totalDeduct, "轉帳失敗，金額退回");
             return new TransactionResult(false, "轉入失敗，金額已退回", -1.0);
         }
 

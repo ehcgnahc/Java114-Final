@@ -1,5 +1,7 @@
 package main;
 
+import java.util.List;
+
 import bank.core.*;
 
 public class Main {
@@ -23,6 +25,7 @@ public class Main {
 
         //帶修正 加入user
         bankA.createAcc(User1, "password");
+        bankA.createAcc(User1, "password");
         bankB.createAcc(User1, "password");
         bankA.createAcc(User2, "password");
         bankB.createAcc(User2, "password");
@@ -38,22 +41,32 @@ public class Main {
         // atmA.deposit(1234);
         // atmA.login("null");
         // atmA.deposit(1234);
-        atmA.insertCard(User1.getCardByBank("BankB"));
+
+        List<PassBook> passBooks = User1.getPassBookListByBank("BankA");
+        System.out.println("User1 在 BankA 有 " + passBooks.size() + " 本存摺");
+
+        atmA.insertCard(User1.getCardByAccount("BankA", passBooks.get(0).getAccID()));
         atmA.login("password");
         atmA.checkBalance();
         atmA.deposit(1000);
         atmA.checkBalance();
-        atmA.transfer("BankB", User1.getPassBookByBank("BankB").getAccID(), 100);
-        atmA.checkBalance();
-
-        atmB.insertCard(User1.getCardByBank("BankB"));
-        atmB.login("password");
-        atmB.checkBalance();
-
         atmA.ejectCard();
-        // atmA.login("3333");
-        // atmB.ejectCard();
-        atmA.checkBalance();
+        
+        passBooks.get(0).printHistory();
+
+        // atmA.transfer("BankB", User1.getPassBookByAccount("BankB", passBooks.get(0).getAccID()), 100);
+        // atmA.checkBalance();
+
+        // atmB.insertCard(User1.getCardByBank("BankB"));
+        // atmB.login("password");
+        // atmB.checkBalance();
+
+        // atmA.ejectCard();
+        // // atmA.login("3333");
+        // // atmB.ejectCard();
+        // atmA.checkBalance();
+
+        // User1.getPassBookByBank("bankA").getHistory();
 
         // bug
         // atmA.insertCard(User2.getCard());
