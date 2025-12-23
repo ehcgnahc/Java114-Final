@@ -27,11 +27,12 @@ public class PassBook {
         return this.history;
     }
 
-    public void setHistory(List<TransactionHistory> fullHistory){
-        this.history = fullHistory;
+    void setHistory(List<TransactionHistory> fullHistory){
+        this.history.clear();
+        this.history.addAll(fullHistory);
     }
 
-    public void updateHistory(List<TransactionHistory> newHistory){
+    void updateHistory(List<TransactionHistory> newHistory){
         this.history.addAll(newHistory);
     }
 

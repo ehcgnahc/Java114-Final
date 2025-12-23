@@ -8,6 +8,8 @@ public class Account {
     private double balance;
     private String accID;
     private String passwordHash;
+    private int errorCount;
+    private boolean isLocked;
     private List<TransactionHistory> transactions = new ArrayList<>();
 
 
@@ -15,6 +17,8 @@ public class Account {
         this.accID = accID;
         this.balance = 0.0;
         this.passwordHash = hash(password);
+        this.errorCount = 0;
+        this.isLocked = false;
         this.transactions.add(new TransactionHistory("開戶", 0.0, 0.0, " "));
     }
 
@@ -35,7 +39,31 @@ public class Account {
     }
 
     boolean checkPassword(String password){
-        return this.passwordHash.equals(hash(password));
+        return checkPasswordStatus(password) == 0;
+    }
+
+    int checkPasswordStatus(String password){
+        if(isLocked) return 2;
+
+        if(this.passwordHash.equals(hash(password))){
+            errorCount = 0;
+            return 0;
+        }
+
+        errorCount++;
+        
+        if(errorCount >= 3){
+            isLocked = true;
+            return 2;
+        }
+
+        return 1;
+    }
+
+    public void unlock(){
+        this.errorCount = 0;
+        this.isLocked = false;
+        this.transactions.add(new TransactionHistory("解鎖", 0.0, balance, "臨櫃解鎖"));
     }
 
     double getBalance(){
@@ -53,6 +81,6 @@ public class Account {
     }
 
     List<TransactionHistory> getTransactions(){
-        return this.transactions;
+        return new ArrayList<>(this.transactions);
     }
 }

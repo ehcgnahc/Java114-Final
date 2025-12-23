@@ -47,12 +47,16 @@ public class ATM {
             return true;
         }
 
-        boolean ok = bankSystem.verifyPassword(currentCard, password);
+        int status = bankSystem.verifyPasswordStatus(currentCard, password);
+        // boolean ok = bankSystem.verifyPassword(currentCard, password);
 
-        if(ok){
+        if(status == 0){
             this.loggedIn = true;
             System.out.println("登入成功");
             return true;
+        }else if(status == 1){
+            System.out.println("登入失敗太多次，帳戶已被鎖定，請洽發卡銀行臨櫃解鎖");
+            return false;
         }else{
             System.out.println("密碼錯誤");
             return false;

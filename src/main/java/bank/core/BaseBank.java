@@ -91,11 +91,29 @@ public abstract class BaseBank {
     public boolean verifyPassword(Card card, String password){
         Account acc = findAcc(card.getAccID());
 
-        if(acc == null){
+        if(acc == null)
             return false;
-        }
 
         return acc.checkPassword(password);
+    }
+
+    public int verifyPasswordStatus(Card card, String password){
+        Account acc = findAcc(card.getAccID());
+        
+        if(acc == null)
+            return -1;
+        
+        return acc.checkPasswordStatus(password);
+    }
+
+    public boolean unlockAccount(String accID){
+        Account acc = findAcc(accID);
+        
+        if(acc == null)
+            return false;
+        
+        acc.unlock();
+        return true;
     }
 
     public TransactionResult getBalance(Card card){
@@ -143,10 +161,11 @@ public abstract class BaseBank {
 
     public TransactionResult updatePassBook(PassBook passBook){
         Account acc = findAcc(passBook.getAccID());
+        
         if(acc == null)
             return new TransactionResult(false, "請確認存簿正確", -1.0);
 
         passBook.setHistory(acc.getTransactions());
-        return new TransactionResult(false, "更新存摺成功", 0.0);
+        return new TransactionResult(true, "更新存摺成功", 0.0);
     }
 }

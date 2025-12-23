@@ -31,8 +31,19 @@ public class BankSystem {
     public boolean verifyPassword(Card card, String password){
         BaseBank bank = bankRegisterMap.get(card.getBankID());
 
-        if(bank == null) return false;
+        if(bank == null)
+            return false;
+        
         return bank.verifyPassword(card, password);
+    }
+
+    public int verifyPasswordStatus(Card card, String password){
+        BaseBank bank = bankRegisterMap.get(card.getBankID());
+        
+        if(bank == null)
+            return -1;
+        
+        return bank.verifyPasswordStatus(card, password);
     }
 
     public TransactionResult getBalance(Card card){
